@@ -50,6 +50,18 @@ def test_f_3(x):
 	b = "0"
 	return general_f(x, a, b)
 
+# n = 4
+def test_f_4(x):
+	a = "0101"
+	b = "0"
+	return general_f(x, a, b)
+
+# n = 4
+def test_f_5(x):
+	a = "0001"
+	b = "0"
+	return general_f(x, a, b)
+
 def test_bv():
 	assert bernstein_vazirani(test_f_1, 5) == ("01010", "0")
 	assert bernstein_vazirani(test_f_2, 20) == ("01010000001111110101", "1")
