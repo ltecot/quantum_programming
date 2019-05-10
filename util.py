@@ -8,6 +8,16 @@ import itertools
 from bernstein_vazirani_classical import test_f_1, test_f_2, test_f_3
 from deutsch_jozsa_classical import balanced_f, constant_f, pseudo_balanced_f
 
+# Convert results from measurment into full state per trial
+def process_results(result, n, t):
+    trials = []
+    for ti in range(t):
+        trial = ''
+        for ni in range(n):
+            trial = str(result[ni][ti]) + trial
+        trials.append(trial)
+    return trials
+
 # Converts string-representation of qubit into a vector.
 def ket(qs):
     val_map = {'0': np.array([[1], [0]]), 

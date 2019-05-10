@@ -1,34 +1,35 @@
 import numpy as np
-from pyquil import Program
+from pyquil import get_qc, Program
 from pyquil.api import QuantumComputer
 from pyquil.gates import *
+# import pyquil.api as api
 
+from deutsch_jozsa_classical import constant_f, balanced_f
+from util import create_Uf_matrix, process_results
 
-dj = Program()
+n = 4  # TODO: main function input
+t = 5
+# f = constant_f
+f = balanced_f
 
-N = 5 
-A = np.random.choice([0, 1], size=(N))
-B = random.randint(0,1)
+p = Program()
+p.defgate("U_f", create_Uf_matrix(f, n))
 
-print(A)
-print(B)
+# print(tuple(range(n+1)[::-1]))
 
-dj.inst(X(0))
-dj.inst(H(0))
+p.inst(X(0))
+p.inst(H(0))
+for q in range(1, n+1):
+    p.inst(H(q))
+p.inst(("U_f",) + tuple(range(n+1)[::-1]))  # Applying U_f
+for q in range(1, n+1):
+    p.inst(H(q))
 
-for qubit in range(1, N+1):
-    dj.inst(H(qubit))
-
-
-dj.inst(("U_f",)
-
-for qubit in range(1, N+1):
-    dj.inst(H(qubit))
-
-
-qc = get_qc('1q-qvm')  # You can make any 'nq-qvm' this way for any reasonable 'n'
-executable = qc.compile(dj)
-result = qc.run_and_measure(executable, trails = 50)
-print(result)
+# You can make any 'nq-qvm' this way for any reasonable 'n'
+qc = get_qc(str(n+1)+'q-qvm')  
+# qc = get_qc('9q-square-qvm')
+# executable = qc.compile(p)
+result = qc.run_and_measure(p, trials = t)
+print(process_results(result, n+1, t))
 
 
