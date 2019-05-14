@@ -15,7 +15,7 @@ def process_results(result, n, t):
         trial = ''
         for ni in range(n):
             trial = str(result[ni][ti]) + trial
-        trials.append(trial)
+        trials.append(trial[:-1])
     return trials
 
 # Converts string-representation of qubit into a vector.
