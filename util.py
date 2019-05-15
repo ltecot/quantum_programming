@@ -15,7 +15,7 @@ def process_results(result, n, t):
         trial = ''
         for ni in range(n):
             trial = str(result[ni][ti]) + trial
-        trials.append(trial[:-1])
+        trials.append(trial)
     return trials
 
 # Converts string-representation of qubit into a vector.
@@ -45,9 +45,10 @@ def f_x(f, n):
         fx[q] = f(q)
     return fx
 
-# p.defgate("U_f", create_Uf_matrix())
-# p.inst(("U_f",) + tuple(range(n+1)[::-1]))
-# Takes in a lambda function and the input size, n.
+# Creates the Uf matrix. Takes in a lambda function and the input size, n.
+# Does this by essentially placing many 2x2 matricies along the diagonal, in 
+# order to either keep (add 0 to y) or negate (add 1 to y) the least significant
+# bit. The identity gate adds 0, while the X gate adds 1.
 def create_Uf_matrix(f, n):
     N = 2**(n+1)
     mat = np.zeros(shape=(N, N))

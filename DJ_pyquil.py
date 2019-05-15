@@ -1,3 +1,5 @@
+# Quantum Deutsch-Jozsa. Implemented as described in lecture.
+
 import numpy as np
 from pyquil import get_qc, Program
 from pyquil.api import QuantumComputer
@@ -8,15 +10,20 @@ from util import create_Uf_matrix, process_results
 
 import time
 import sys
+import argparse
 
-if len(sys.argv) < 2:
-    print('Usage: python3 DJ_pyquil.py <n>')
-    exit()
+def create_lambda_with_globals(s):
+    return eval(s, globals())
 
-n = int(sys.argv[1]) # TODO: main function input
-t = 5
-f = constant_f
-# f = balanced_f
+parser = argparse.ArgumentParser()
+
+parser.add_argument("-n",dest="n", type=int, required=True)
+parser.add_argument("-f",dest="f", type=create_lambda_with_globals, required=True)
+args = parser.parse_args()
+
+n = args.n
+f = args.f  # constant_f, balanced_f
+t = 10
 
 start = time.time()
 
@@ -33,6 +40,7 @@ for q in range(1, n+1):
 
 # You can make any 'nq-qvm' this way for any reasonable 'n'
 qc = get_qc(str(n+1)+'q-qvm')
+qc.compiler.client.timeout = 100
 result = qc.run_and_measure(p, trials = t)
 
 end = time.time()
