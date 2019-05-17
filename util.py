@@ -57,6 +57,27 @@ def create_Uf_matrix(f, n):
         mat += np.kron(outer_product(k), np.eye(2) + v * (np.array([[-1, 1], [1, -1]])))
     return mat
 
+# Creates the Z0 reflection matrix in Grover's Algorithm. Takes in the input size, n.
+# Does this by just creating a big identity matrix and setting the element corresponding
+# to all zeros to -1, which is the top left.
+def create_Z0_matrix(f, n):
+    N = 2**(n+1)
+    mat = np.identity(N)
+    mat[0][0] = -1
+    return mat
+
+# Creates the Zf reflection matrix in Grover's Algorithm. 
+# Takes in a lambda function and the input size, n.
+# Does this by just creating a big identity matrix and setting 
+# each element where f(x) = 1 to -1.
+def create_Zf_matrix(f, n):
+    N = 2**(n+1)
+    mat = np.zeros(shape=(N, N))
+    fx = f_x(f, n)
+    for k, v in fx.items():
+        mat += -v * np.kron(outer_product(k)
+    return mat
+
 def test_uf_matrix():
     print(create_Uf_matrix(balanced_f, 3))
     print(create_Uf_matrix(constant_f, 3))
