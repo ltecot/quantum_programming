@@ -69,12 +69,11 @@ def create_Bf_matrix(f, n):
         mat += np.kron(outer_product(k), target_operator)
     return mat
 
-
 # Creates the Z0 reflection matrix in Grover's Algorithm. Takes in the input size, n.
 # Does this by just creating a big identity matrix and setting the element corresponding
 # to all zeros to -1, which is the top left.
-def create_Z0_matrix(f, n):
-    N = 2**(n+1)
+def create_Z0_matrix(n):
+    N = 2**(n)
     mat = np.identity(N)
     mat[0][0] = -1
     return mat
@@ -84,13 +83,20 @@ def create_Z0_matrix(f, n):
 # Does this by just creating a big identity matrix and setting 
 # each element where f(x) = 1 to -1.
 def create_Zf_matrix(f, n):
-    N = 2**(n+1)
+    N = 2**(n)
     mat = np.zeros(shape=(N, N))
     fx = f_x(f, n)
     for k, v in fx.items():
-        mat += -v * np.kron(outer_product(k))
+        if v == 1:
+            mat -= outer_product(k)
+        else:
+            mat += outer_product(k)
     return mat
 
+# ---------------------------------------------------------------------------------------------------
+# Row Echelon linear equation solver functions
+# Code taken from the following repository: 
+# https://github.com/msohaibalam/quantum_algorithms_from_scratch/blob/master/gaussian_elimination.py
 
 def rank(A):
     '''
@@ -245,6 +251,9 @@ def solve_reduced_row_echelon_form(A):
     x = back_substitue_mod2(A)
 
     return x
+
+# ---------------------------------------------------------------------------------------------------
+# Test Code
 
 def test_uf_matrix():
     print(create_Uf_matrix(balanced_f, 3))

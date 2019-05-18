@@ -30,6 +30,21 @@ def test_only_one(x):
 		return 1
 	return 0
 
+def test_01(x):
+	if x == '01':
+		return 1
+	return 0
+
+def test_000(x):
+	if x == '000':
+		return 1
+	return 0
+
+def test_10010(x):
+	if x == '10010':
+		return 1
+	return 0
+
 def test_random(x):
 	return random.randint(0, 1)
 
