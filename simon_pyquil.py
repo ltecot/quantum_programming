@@ -35,11 +35,6 @@ if n == 1:
     print("Execution time: ", end - start)
 
 else:
-    # s_trials = list()
-
-    # s_zero = False
-
-    # for t in range(10):
     M = []
 
     while rank(M) < n - 1:
@@ -69,17 +64,6 @@ else:
         del p
 
     s = solve_reduced_row_echelon_form(M)
-            
-        # s = [str(i) for i in s]
-        # cur_s = "".join(s)
-
-        # if len(s_trials) != 0 and cur_s != s_trials[0]:
-        #     s_zero = True
-        #     break
-
-        # if len(s_trials) == 0:
-        #     s_trials.append(cur_s)
-
 
     end  = time.time()
 
