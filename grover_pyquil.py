@@ -5,7 +5,7 @@ from pyquil import get_qc, Program
 from pyquil.api import QuantumComputer
 from pyquil.gates import *
 
-from grover_classical import test_only_one, test_01, test_000, test_10010
+from grover_classical import test_only_one, test_01, test_000, test_10010, test_1111
 from util import create_Z0_matrix, create_Zf_matrix, process_results
 
 import time

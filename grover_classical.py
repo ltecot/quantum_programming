@@ -36,7 +36,12 @@ def test_01(x):
 	return 0
 
 def test_000(x):
-	if x == '000':
+	if x == '010':
+		return 1
+	return 0
+
+def test_1111(x):
+	if x == '1111':
 		return 1
 	return 0
 
