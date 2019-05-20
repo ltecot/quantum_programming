@@ -44,6 +44,18 @@ def test_wiki(x):
 	elif x == '111':
 		return '010'
 
+# n=2, s = '01'
+def test_wiki_2(x):
+	if x == '00':
+		return '01'
+	elif x == '01':
+		return '10'
+	elif x == '10':
+		return '01'
+	elif x == '11':
+		return '10'
+
+	
 # Should return s = all zeros
 def test_linear(x):
 	return x

@@ -3,7 +3,7 @@ import numpy as np
 from pyquil import get_qc, Program
 from pyquil.gates import *
 
-from simon_classical import test_wiki
+from simon_classical import test_wiki , test_wiki_2, test_linear
 from util import *
 
 import time
