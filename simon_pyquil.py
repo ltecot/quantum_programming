@@ -22,37 +22,69 @@ args = parser.parse_args()
 n = args.n
 f = args.f # test_wiki
 
-M = []
-
 start = time.time()
 
-while rank(M) < n - 1:
-    p = Program()
+if n == 1:
+    if f(0) == f(1):
+        s = 1
+    else:
+        s = 0
+    
+    end = time.time()
+    print("s: ", s)
+    print("Execution time: ", end - start)
 
-    p.defgate("B_f", create_Bf_matrix(f, n))
+else:
+    # s_trials = list()
 
-    for q in range(n):
-        p.inst(I(q))
-    for q in range(n, n * 2):
-        p.inst(H(q))
+    # s_zero = False
 
-    p.inst(("B_f",) + tuple(range(n*2)[::-1]))
+    # for t in range(10):
+    M = []
 
-    for q in range(n, n * 2):
-        p.inst(H(q))
+    while rank(M) < n - 1:
+        p = Program()
 
-    qc = get_qc(str(n*2)+'q-qvm')
-    qc.compiler.client.timeout = 100
-    result = qc.run_and_measure(p, trials = 1)
-    y = list(process_results(result, n*2, 1)[0][:n])
-    y = [int(i) for i in y]
-    y.append(0)
+        p.defgate("B_f", create_Bf_matrix(f, n))
 
-    M = new_sample(M, y)
+        for q in range(n):
+            p.inst(I(q))
+        for q in range(n, n * 2):
+            p.inst(H(q))
 
-    del p
+        p.inst(("B_f",) + tuple(range(n*2)[::-1]))
 
-end  = time.time()
+        for q in range(n, n * 2):
+            p.inst(H(q))
 
-print ("s: ", solve_reduced_row_echelon_form(M))
-print("Execution time: ", end - start)
+        qc = get_qc(str(n*2)+'q-qvm')
+        qc.compiler.client.timeout = 100
+        result = qc.run_and_measure(p, trials = 1)
+        y = list(process_results(result, n*2, 1)[0][:n])
+        y = [int(i) for i in y]
+        y.append(0)
+
+        M = new_sample(M, y)
+
+        del p
+
+    s = solve_reduced_row_echelon_form(M)
+            
+        # s = [str(i) for i in s]
+        # cur_s = "".join(s)
+
+        # if len(s_trials) != 0 and cur_s != s_trials[0]:
+        #     s_zero = True
+        #     break
+
+        # if len(s_trials) == 0:
+        #     s_trials.append(cur_s)
+
+
+    end  = time.time()
+
+    if f("".join(['0' for i in range(n)])) != f("".join([str(i) for i in s])):
+        print ("s: ", [0 for i in range(n)])
+    else:
+        print ("s: ", s)
+    print("Execution time: ", end - start)
