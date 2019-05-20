@@ -45,7 +45,7 @@ def test_wiki(x):
 		return '010'
 
 # n=2, s = '01'
-def test_wiki_2(x):
+def test_2(x):
 	if x == '00':
 		return '01'
 	elif x == '01':
