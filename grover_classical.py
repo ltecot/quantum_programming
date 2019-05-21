@@ -36,7 +36,7 @@ def test_01(x):
 	return 0
 
 def test_000(x):
-	if x == '010':
+	if x == '000':
 		return 1
 	return 0
 
