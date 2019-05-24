@@ -44,7 +44,7 @@ def test_wiki(x):
 	elif x == '111':
 		return '010'
 
-# n=2, s = '01'
+# n=2, s = '10'
 def test_2(x):
 	if x == '00':
 		return '01'
