@@ -4,6 +4,7 @@
 # https://github.com/msohaibalam/quantum_algorithms_from_scratch/blob/master/Deutsch's%20Algorithm.ipynb
 
 import numpy as np
+import cirq
 import itertools
 from bernstein_vazirani_classical import test_f_1, test_f_2, test_f_3
 from deutsch_jozsa_classical import balanced_f, constant_f, pseudo_balanced_f
@@ -92,6 +93,24 @@ def create_Zf_matrix(f, n):
         else:
             mat += outer_product(k)
     return mat
+
+# CIRQ CUSTOM GATE CLASSES
+
+class Cirq_Custom(cirq.Gate):
+    def __init__(self, n, f_mat, name="oracle"):
+        cirq.Gate.__init__(self)
+        self.n = n
+        self.f_mat = f_mat
+        self.name = name
+
+    def num_qubits(self):
+        return self.n
+
+    def _unitary_(self):
+        return self.f_mat
+
+    def __str__(self):
+        return self.name
 
 # ---------------------------------------------------------------------------------------------------
 # Row Echelon linear equation solver functions

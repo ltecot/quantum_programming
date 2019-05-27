@@ -56,9 +56,15 @@ def test_f_4(x):
 	b = "0"
 	return general_f(x, a, b)
 
-# n = 4
+# n = 5
 def test_f_5(x):
-	a = "0001"
+	a = "10001"
+	b = "0"
+	return general_f(x, a, b)
+
+# n = 6
+def test_f_6(x):
+	a = "101001"
 	b = "0"
 	return general_f(x, a, b)
 

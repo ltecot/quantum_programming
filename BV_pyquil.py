@@ -5,7 +5,7 @@ from pyquil import get_qc, Program
 from pyquil.api import QuantumComputer
 from pyquil.gates import *
 
-from bernstein_vazirani_classical import test_f_4, test_f_5
+from bernstein_vazirani_classical import test_f_4, test_f_5, test_f_6
 from util import create_Uf_matrix, process_results
 
 import time
