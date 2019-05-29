@@ -6,15 +6,16 @@
 import numpy as np
 import cirq
 import itertools
+import requests
 from bernstein_vazirani_classical import test_f_1, test_f_2, test_f_3
 from deutsch_jozsa_classical import balanced_f, constant_f, pseudo_balanced_f
 
 # Convert results from measurment into full state per trial
 def process_results(result, n, t):
     trials = []
-    for ti in range(t):
+    for ti in range(len(result[0])):
         trial = ''
-        for ni in range(n):
+        for ni in range(len(result)):
             trial = str(result[ni][ti]) + trial
         trials.append(trial)
     return trials
@@ -113,6 +114,12 @@ class Cirq_Custom(cirq.Gate):
 
     def __str__(self):
         return self.name
+
+# Sends the job to the 239 server
+def send_to_server(program, email, shots=10):
+    r = requests.post('http://167.99.168.69:8080/send' , 
+                    data = {'quil' : program , 'email' : email , 'shots' : shots})
+    print(r.text)
 
 # ---------------------------------------------------------------------------------------------------
 # Row Echelon linear equation solver functions
