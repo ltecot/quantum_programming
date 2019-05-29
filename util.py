@@ -94,8 +94,10 @@ def create_Zf_matrix(f, n):
             mat += outer_product(k)
     return mat
 
-# CIRQ CUSTOM GATE CLASSES
-
+# Cirq custom gate class
+# Takes in the number of qubits it operates on, n, and
+# the matrix representing the gate operation. Also optionally
+# takes in a name.
 class Cirq_Custom(cirq.Gate):
     def __init__(self, n, f_mat, name="oracle"):
         cirq.Gate.__init__(self)
