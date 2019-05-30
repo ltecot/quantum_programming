@@ -61,6 +61,8 @@ if args.aspen:
     qc = get_qc('Aspen-4-6Q-A', as_qvm=True)
     # pn = qc.compiler.quil_to_native_quil(p)
     if args.send_to_server and args.email != '':
+        print("program: ", p.out())
+        print("email: ", args.email)
         send_to_server(p.out(), args.email)
         # send_to_server(pn.out(), args.email)
     else:
