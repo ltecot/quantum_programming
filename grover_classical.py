@@ -40,13 +40,28 @@ def test_000(x):
 		return 1
 	return 0
 
+def test_110(x):
+	if x == '110':
+		return 1
+	return 0
+
 def test_1111(x):
 	if x == '1111':
 		return 1
 	return 0
 
+def test_0010(x):
+	if x == '0010':
+		return 1
+	return 0
+
 def test_10010(x):
 	if x == '10010':
+		return 1
+	return 0
+
+def test_10111(x):
+	if x == '10111':
 		return 1
 	return 0
 

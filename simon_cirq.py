@@ -5,7 +5,7 @@ import time
 import math
 
 from util import create_Bf_matrix, Cirq_Custom, rank, solve_reduced_row_echelon_form, new_sample
-from simon_classical import test_wiki , test_2, test_linear
+from simon_classical import test_wiki , test_2, test_linear, test_2b
 
 def main():
     parser = argparse.ArgumentParser()
@@ -14,6 +14,17 @@ def main():
     args = parser.parse_args()
 
     start = time.time()
+
+    # Special corner case for n = 1
+    if args.n == 1:
+        if args.f(0) == args.f(1):
+            s = 1
+        else:
+            s = 0
+        end = time.time()
+        print("s: ", s)
+        print("Execution time: ", end - start)
+        return
 
     # Choose qubits to use.
     measure_qubits = [cirq.GridQubit(i, 0) for i in range(args.n)]

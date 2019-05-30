@@ -59,11 +59,10 @@ for i, q in enumerate(reversed(qubits)):
 
 if args.aspen:    
     qc = get_qc('Aspen-4-6Q-A', as_qvm=True)
-    pn = qc.compiler.quil_to_native_quil(p)
-    # print(pn.out())
+    # pn = qc.compiler.quil_to_native_quil(p)
     if args.send_to_server and args.email != '':
-        # send_to_server(p.out(), args.email)
-        send_to_server(pn.out(), args.email)
+        send_to_server(p.out(), args.email)
+        # send_to_server(pn.out(), args.email)
     else:
         executable = qc.compile(p)
         result = qc.run(executable)

@@ -5,7 +5,7 @@ import time
 import math
 
 from util import create_Z0_matrix, create_Zf_matrix, Cirq_Custom
-from grover_classical import test_only_one, test_01, test_000, test_10010, test_1111
+from grover_classical import test_only_one, test_0, test_1, test_01, test_000, test_110, test_1111, test_0010, test_10010, test_10111
 
 def main():
     parser = argparse.ArgumentParser()

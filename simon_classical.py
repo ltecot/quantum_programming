@@ -55,6 +55,17 @@ def test_2(x):
 	elif x == '11':
 		return '10'
 
+# n=2, s = '11'
+def test_2b(x):
+	if x == '00':
+		return '01'
+	elif x == '01':
+		return '10'
+	elif x == '10':
+		return '10'
+	elif x == '11':
+		return '01'
+
 	
 # Should return s = all zeros
 def test_linear(x):
