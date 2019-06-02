@@ -27,6 +27,7 @@ args = parser.parse_args()
 
 n = args.n
 f = args.f
+t = 10
 
 start = time.time()
 
@@ -43,7 +44,7 @@ else:
     qubits = range(n)
 
 # Initial Hadamard
-ro = p.declare('ro', 'BIT', len(qubits))
+# ro = p.declare('ro', 'BIT', len(qubits))
 for q in qubits:
     p.inst(H(q))
 # Repeat G
@@ -54,8 +55,8 @@ for i in range(num_iter):
     p.inst(("Z_0",) + tuple(qubits[::-1]))
     for q in qubits:
         p.inst(H(q))
-for i, q in enumerate(reversed(qubits)):
-    p.inst(MEASURE(q, ro[i]))
+# for i, q in enumerate(reversed(qubits)):
+#     p.inst(MEASURE(q, ro[i]))
 
 if args.aspen:    
     qc = get_qc('Aspen-4-6Q-A', as_qvm=True)
@@ -66,17 +67,21 @@ if args.aspen:
         send_to_server(p.out(), args.email)
         # send_to_server(pn.out(), args.email)
     else:
-        executable = qc.compile(p)
-        result = qc.run(executable)
+        # executable = qc.compile(p)
+        # result = qc.run(executable)
+        result = qc.run_and_measure(p, trials = t)
         end = time.time()
-        print(result)
+        # print(result)
+        print(process_results(result, qubits))
         print("Execution time: ", end - start)
 else:
     # You can make any 'nq-qvm' this way for any reasonable 'n'
-    qc = get_qc(str(n+1)+'q-qvm')
+    qc = get_qc(str(n)+'q-qvm')
     qc.compiler.client.timeout = 100
-    executable = qc.compile(p)
-    result = qc.run(executable)
+    # executable = qc.compile(p)
+    # result = qc.run(executable)
+    result = qc.run_and_measure(p, trials = t)
     end = time.time()
-    print(result)
+    # print(result)
+    print(process_results(result, qubits))
     print("Execution time: ", end - start)
