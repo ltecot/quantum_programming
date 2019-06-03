@@ -17,6 +17,9 @@ parser = argparse.ArgumentParser()
 
 parser.add_argument("-n",dest="n", type=int, required=True)
 parser.add_argument("-f",dest="f", type=create_lambda_with_globals, required=True)
+parser.add_argument('--aspen', action = 'store_true', default = False)
+parser.add_argument('--send_to_server', action = 'store_true', default = False)
+parser.add_argument('--email', default = '')
 args = parser.parse_args()
 
 n = args.n
@@ -42,20 +45,40 @@ else:
 
         p.defgate("B_f", create_Bf_matrix(f, n))
 
-        for q in range(n):
+        if args.aspen:
+            if n * 2 > 6:
+                raise ValueError("Aspen only has 6 qubits.")
+            qubits = [7, 0, 1, 2, 15, 14]
+            qubits = qubits[:n*2]
+        else:
+            qubits = range(n*2)
+
+        for q in qubits[:n]:
             p.inst(I(q))
-        for q in range(n, n * 2):
+        for q in qubits[n:]:
             p.inst(H(q))
 
-        p.inst(("B_f",) + tuple(range(n*2)[::-1]))
+        p.inst(("B_f",) + tuple(qubits[::-1]))
 
-        for q in range(n, n * 2):
+        for q in qubits[n:]:
             p.inst(H(q))
 
-        qc = get_qc(str(n*2)+'q-qvm')
-        qc.compiler.client.timeout = 100
-        result = qc.run_and_measure(p, trials = 1)
-        y = list(process_results(result, n*2, 1)[0][:n])
+        if args.aspen:    
+            qc = get_qc('Aspen-4-6Q-A', as_qvm=True)
+            qc.compiler.client.timeout = 100
+            if args.send_to_server and args.email != '':
+                print("program: ", p.out())
+                print("email: ", args.email)
+                send_to_server(p.out(), args.email)
+                exit()  # Just send job over, no processing
+            else:
+                result = qc.run_and_measure(p, trials = 1)
+        else:
+            qc = get_qc(str(n*2)+'q-qvm')
+            qc.compiler.client.timeout = 100
+            result = qc.run_and_measure(p, trials = 1)
+
+        y = list(process_results(result, qubits)[0][:n])
         y = [int(i) for i in y]
         y.append(0)
 

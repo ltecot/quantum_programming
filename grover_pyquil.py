@@ -38,13 +38,14 @@ p.defgate("Z_f", create_Zf_matrix(f, n))
 num_iter = math.floor((math.pi / 4) * math.sqrt(2**n))
 
 if args.aspen:
+    if n > 6:
+        raise ValueError("Aspen only has 6 qubits.")
     qubits = [7, 0, 1, 2, 15, 14]
     qubits = qubits[:n]
 else:
     qubits = range(n)
 
 # Initial Hadamard
-# ro = p.declare('ro', 'BIT', len(qubits))
 for q in qubits:
     p.inst(H(q))
 # Repeat G
@@ -55,33 +56,24 @@ for i in range(num_iter):
     p.inst(("Z_0",) + tuple(qubits[::-1]))
     for q in qubits:
         p.inst(H(q))
-# for i, q in enumerate(reversed(qubits)):
-#     p.inst(MEASURE(q, ro[i]))
 
 if args.aspen:    
     qc = get_qc('Aspen-4-6Q-A', as_qvm=True)
-    # pn = qc.compiler.quil_to_native_quil(p)
+    qc.compiler.client.timeout = 100
     if args.send_to_server and args.email != '':
         print("program: ", p.out())
         print("email: ", args.email)
         send_to_server(p.out(), args.email)
-        # send_to_server(pn.out(), args.email)
     else:
-        # executable = qc.compile(p)
-        # result = qc.run(executable)
         result = qc.run_and_measure(p, trials = t)
         end = time.time()
-        # print(result)
         print(process_results(result, qubits))
         print("Execution time: ", end - start)
 else:
     # You can make any 'nq-qvm' this way for any reasonable 'n'
     qc = get_qc(str(n)+'q-qvm')
     qc.compiler.client.timeout = 100
-    # executable = qc.compile(p)
-    # result = qc.run(executable)
     result = qc.run_and_measure(p, trials = t)
     end = time.time()
-    # print(result)
     print(process_results(result, qubits))
     print("Execution time: ", end - start)
