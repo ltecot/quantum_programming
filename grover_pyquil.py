@@ -38,9 +38,9 @@ p.defgate("Z_f", create_Zf_matrix(f, n))
 num_iter = math.floor((math.pi / 4) * math.sqrt(2**n))
 
 if args.aspen:
-    if n > 6:
-        raise ValueError("Aspen only has 6 qubits.")
-    qubits = [7, 0, 1, 2, 15, 14]
+    if n > 12:
+        raise ValueError("Aspen only has 12 qubits.")
+    qubits = [0, 1, 2, 6, 7, 10, 11, 13, 14, 15, 16, 17]
     qubits = qubits[:n]
 else:
     qubits = range(n)
@@ -57,13 +57,14 @@ for i in range(num_iter):
     for q in qubits:
         p.inst(H(q))
 
-if args.aspen:    
-    qc = get_qc('Aspen-4-6Q-A', as_qvm=True)
+if args.aspen:
+    qc = get_qc('Aspen-4-12Q-A', as_qvm=True)
     qc.compiler.client.timeout = 100
     if args.send_to_server and args.email != '':
-        print("program: ", p.out())
+        p_out = "# grover F=" + args.f.__name__ + " N=" + str(args.n) + "\n" + p.out()
+        print("program: ", p_out)
         print("email: ", args.email)
-        send_to_server(p.out(), args.email)
+        send_to_server(p_out, args.email)
     else:
         result = qc.run_and_measure(p, trials = t)
         end = time.time()

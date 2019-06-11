@@ -34,9 +34,9 @@ p = Program()
 p.defgate("U_f", create_Uf_matrix(f, n))
 
 if args.aspen:
-    if n+1 > 6:
-        raise ValueError("Aspen only has 6 qubits.")
-    qubits = [7, 0, 1, 2, 15, 14]
+    if n+1 > 12:
+        raise ValueError("Aspen only has 12 qubits.")
+    qubits = [0, 1, 2, 6, 7, 10, 11, 13, 14, 15, 16, 17]
     qubits = qubits[:n+1]
 else:
     qubits = range(n+1)
@@ -53,9 +53,10 @@ if args.aspen:
     qc = get_qc('Aspen-4-6Q-A', as_qvm=True)
     qc.compiler.client.timeout = 100
     if args.send_to_server and args.email != '':
-        print("program: ", p.out())
+        p_out = "# BV F=" + args.f.__name__ + " N=" + str(args.n) + "\n" + p.out()
+        print("program: ", p_out)
         print("email: ", args.email)
-        send_to_server(p.out(), args.email)
+        send_to_server(p_out, args.email)
     else:
         result = qc.run_and_measure(p, trials = t)
         end = time.time()

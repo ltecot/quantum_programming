@@ -46,9 +46,9 @@ else:
         p.defgate("B_f", create_Bf_matrix(f, n))
 
         if args.aspen:
-            if n * 2 > 6:
-                raise ValueError("Aspen only has 6 qubits.")
-            qubits = [7, 0, 1, 2, 15, 14]
+            if n * 2 > 12:
+                raise ValueError("Aspen only has 12 qubits.")
+            qubits = [0, 1, 2, 6, 7, 10, 11, 13, 14, 15, 16, 17]
             qubits = qubits[:n*2]
         else:
             qubits = range(n*2)
@@ -64,12 +64,13 @@ else:
             p.inst(H(q))
 
         if args.aspen:    
-            qc = get_qc('Aspen-4-6Q-A', as_qvm=True)
+            qc = get_qc('Aspen-4-12Q-A', as_qvm=True)
             qc.compiler.client.timeout = 100
             if args.send_to_server and args.email != '':
-                print("program: ", p.out())
+                p_out = "# simon F=" + args.f.__name__ + " N=" + str(args.n) + "\n" + p.out()
+                print("program: ", p_out)
                 print("email: ", args.email)
-                send_to_server(p.out(), args.email)
+                send_to_server(p_out, args.email)
                 exit()  # Just send job over, no processing
             else:
                 result = qc.run_and_measure(p, trials = 1)
