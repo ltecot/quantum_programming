@@ -3,7 +3,8 @@
 using Microsoft.Quantum.Simulation.Core;
 using Microsoft.Quantum.Simulation.Simulators;
 
-namespace bv_algorithm
+//Change namespace to desired algorithm
+namespace SimonsAlgorithm
 {
     class Driver
     {
@@ -13,9 +14,12 @@ namespace bv_algorithm
             {
                 var watch = System.Diagnostics.Stopwatch.StartNew();
 
-                // Run_DeutschJozsa_Algorithm.Run(qsim).Wait();
+                //Uncomment for Deutsch Josze
+                //System.Console.WriteLine("Result for Deutsch Josze Algorithm:");
+                //Run_DeutschJozsa_Algorithm.Run(qsim).Wait();
 
-
+                //Uncomment for Bernstein Vazirani
+                /* 
                 int n = 10;
                 long[] a = new long[n];
                 Random r = new Random();
@@ -24,6 +28,7 @@ namespace bv_algorithm
                 }
                 var res = Run_BernsteinVazirani_Algorithm.Run(qsim, new QArray<long>(a)).Result;
                 if(res.Equals("Success!")) {
+                    System.Console.WriteLine("Result for Bernstein Vazirani Algorithm:");
                     for(int i = 0; i < n; i++) {
                         System.Console.Write(a[i] + " ");
                     }
@@ -31,6 +36,15 @@ namespace bv_algorithm
                 } else {
                     System.Console.WriteLine("incorrect");
                 }
+                */
+
+                //Uncomment for Simon's
+                var res = Run_Simon_Algorithm.Run(qsim).Result;
+                System.Console.WriteLine("Result for Simon's Algorithm:");
+                System.Console.WriteLine(res);
+
+
+                //Uncomment for Grover's
 
                 watch.Stop();
                 double totalTime = watch.ElapsedMilliseconds / 1000.0;
