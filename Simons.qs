@@ -117,7 +117,7 @@ namespace SimonsAlgorithm {
     operation Run_Simon_Algorithm () : Int[] {
         let ret1 = Simon_Algorithm(4, Oracle_BitwiseRightShift);
         
-        // If all tests pass, report success!
+        // NO SOLUTION CHECKING CURRENTLY 
         return ret1;
     }
 }

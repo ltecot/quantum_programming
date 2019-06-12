@@ -4,7 +4,7 @@ using Microsoft.Quantum.Simulation.Core;
 using Microsoft.Quantum.Simulation.Simulators;
 
 //Change namespace to desired algorithm
-namespace SimonsAlgorithm
+namespace GroversAlgorithm
 {
     class Driver
     {
@@ -39,17 +39,19 @@ namespace SimonsAlgorithm
                 */
 
                 //Uncomment for Simon's
+                /* 
                 var res = Run_Simon_Algorithm.Run(qsim).Result;
                 System.Console.WriteLine("Result for Simon's Algorithm:");
                 System.Console.WriteLine(res);
+                */
 
 
                 //Uncomment for Grover's
-                /* 
-                var res = Run_Simon_Algorithm.Run(qsim).Result;
+                
+                var res = Run_Grovers_Algorithm.Run(qsim).Result;
                 System.Console.WriteLine("Result for Grover's Algorithm:");
                 System.Console.WriteLine(res);
-                */
+                
 
 
                 watch.Stop();

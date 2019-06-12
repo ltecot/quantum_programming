@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT license.
 
-namespace Quantum.Kata.GroversAlgorithm {
+namespace GroversAlgorithm {
     
     open Microsoft.Quantum.Diagnostics;
     open Microsoft.Quantum.Convert;
@@ -170,11 +170,16 @@ namespace Quantum.Kata.GroversAlgorithm {
         }
     }
     
-    //operation Run_Grovers_Algorithm () : String {
-    //    let ret1 = GroversSearch(Qubit[], Oracle_AlternatingBits, 10);
-    //    
-    //    // If all tests pass, report success!
-    //    return "Success!";
-    //}
+    operation Run_Grovers_Algorithm () : String {
+        let n = 25;
+        let pattern = IntAsBoolArray(RandomIntPow2(n), n);
+        let markingOracle = Oracle_ArbitraryPattern(_, _, pattern);
+        let ret1 = GroversSearch(_, markingOracle, n);
+        //SOMETHING HERE IS WRONG
+        //not sure how to pass the solution to the driver either
+        
+        // If all tests pass, report success!
+        return "Success";
+    }
     
 }
