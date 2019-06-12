@@ -45,6 +45,12 @@ namespace SimonsAlgorithm
 
 
                 //Uncomment for Grover's
+                /* 
+                var res = Run_Simon_Algorithm.Run(qsim).Result;
+                System.Console.WriteLine("Result for Grover's Algorithm:");
+                System.Console.WriteLine(res);
+                */
+
 
                 watch.Stop();
                 double totalTime = watch.ElapsedMilliseconds / 1000.0;
