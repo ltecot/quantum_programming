@@ -9,6 +9,8 @@ namespace GroversAlgorithm {
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
     open Microsoft.Quantum.Arrays;
+
+
     
     
     //////////////////////////////////////////////////////////////////
@@ -160,7 +162,7 @@ namespace GroversAlgorithm {
     
     // Task 3.1. Grover's search
     operation GroversSearch (register : Qubit[], oracle : ((Qubit[], Qubit) => Unit is Adj), iterations : Int) : Unit
-    is Adj {
+    {
         
         let phaseOracle = OracleConverter(oracle);
         HadamardTransform(register);
@@ -168,18 +170,37 @@ namespace GroversAlgorithm {
         for (i in 1 .. iterations) {
             GroverIteration(register, phaseOracle);
         }
+       
     }
     
-    operation Run_Grovers_Algorithm () : String {
-        let n = 25;
+    operation Run_Grovers_Algorithm () : Int[] {
+        let n = 5;
         let pattern = IntAsBoolArray(RandomIntPow2(n), n);
         let markingOracle = Oracle_ArbitraryPattern(_, _, pattern);
         let ret1 = GroversSearch(_, markingOracle, n);
         //SOMETHING HERE IS WRONG
         //not sure how to pass the solution to the driver either
-        
+        using ((x, y) = (Qubit[n], Qubit())) {
+
+            ret1(x);
+
+            mutable j = new Int[n];
+            for (i in 0 .. n - 1) {
+                if (M(x[i]) == One) {
+                    set j w/= i <- 1;
+                }
+            }
+
+            ResetAll(x);
+            Reset(y);
+            let answer = BoolArrayAsInt(pattern);
+            Message(IntAsString(answer));
+            return j;
+
+        }
+
         // If all tests pass, report success!
-        return "Success";
+        //return ret1;
     }
     
 }
