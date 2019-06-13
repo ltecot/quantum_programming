@@ -46,20 +46,32 @@ DJ_data = [ 0.10980075690895319,
             0.9290440510958433
 ]
 
+grover_total_bits = 12.0 * 10.0
+grover_sim_error = [4, 0, 1, 0, 0]
+grover_real_error = [11, 8, 25, 35, 36]
+grover_sim_error = [x / grover_total_bits for x in grover_sim_error]
+grover_real_error = [x / grover_total_bits for x in grover_real_error]
 
 # Data for plotting
 fig, ax = plt.subplots()
 # ax.plot(DJ_x, DJ_data)
-ax.plot(BV_x, BV_data)
+# ax.plot(BV_x, BV_data)
 # ax.plot(grover_x, grover_data)
+ax.plot(grover_x, grover_sim_error, label='QVM Error')
+ax.plot(grover_x, grover_real_error, label='QPU Error')
 
-ax.set(xlabel='Number of Qubits (n)', ylabel='Time (seconds)',
-    #    title='Deutsch-Jozsa Algorithm')
-       title='Bernstein-Vazirani Algorithm')
-    #    title='Grovers Algorithm')
-# ax.grid()
+# ax.set(xlabel='Number of Qubits (n)', ylabel='Time (seconds)',
+#     #    title='Deutsch-Jozsa Algorithm')
+#        title='Bernstein-Vazirani Algorithm')
+#     #    title='Grovers Algorithm')
+# # ax.grid()
+
+ax.legend()
+ax.set(xlabel='Number of Qubits (n)', ylabel='Error Rate',
+       title='Grover Error Rate')
 
 # fig.savefig("DJ.png")
-fig.savefig("BV.png")
+# fig.savefig("BV.png")
 # fig.savefig("grover.png")
+fig.savefig("grover_error.png")
 plt.show()
