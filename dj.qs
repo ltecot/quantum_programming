@@ -16,13 +16,11 @@
         for (q in x) {
             CNOT(q, y);
         }
-        // alternative solution: ApplyToEachA(CNOT(_, y), x);
     }
 
     operation DJ_Algorithm (N : Int, oracle : ((Qubit[], Qubit) => Unit)) : Bool {
         // Create a boolean variable for storing the return value.
         // You'll need to update it later, so it has to be declared as mutable.
-        // ...
         mutable isConstantFunction = true;
 
         // Allocate an array of N qubits for the input register x and one qubit for the answer register y.
@@ -30,25 +28,20 @@
             // Newly allocated qubits start in the |0⟩ state.
             // The first step is to prepare the qubits in the required state before calling the oracle.
             // Each qubit of the input register has to be in the |+⟩ state.
-            // ...
             ApplyToEachA(H, x);
 
             // The answer register has to be in the |-⟩ state.
-            // ...
             X(y);
             H(y);
 
             // Apply the oracle to the input register and the answer register.
-            // ...
             oracle(x, y);
 
             // Apply a Hadamard gate to each qubit of the input register again.
-            // ...
             ApplyToEach(H, x);
 
             // Measure each qubit of the input register in the computational basis using the M operation.
             // If any of the measurement results is One, the function implemented by the oracle is balanced.
-            // ...
             mutable r = new Int[N];
             for (i in 0 .. N - 1) {
                 if (M(x[i]) != Zero) {
@@ -57,7 +50,6 @@
             }
 
             // Before releasing the qubits make sure they are all in the |0⟩ state.
-            // ...
             ResetAll(x);
             Reset(y);
 
@@ -67,12 +59,12 @@
         }
         
         // Return the answer.
-        // ...
 
         return isConstantFunction;
     }
 
     operation Run_DeutschJozsa_Algorithm () : String {
+        // This is an example for constant function
         // let ret1 = DJ_Algorithm(4, Oracle_One);
         // if(ret1) {
         //     Message("Oracle_One represents a constant function");
@@ -80,6 +72,7 @@
         //     Message("Oracle_One represents a balanced function");
         // }
         
+        // This is an example for balanced function
         let ret2 = DJ_Algorithm(4, Oracle_OddNumberOfOnes);
         if(ret2) {
             Message("Oracle_OddNumberOfOnes represents a constant function");

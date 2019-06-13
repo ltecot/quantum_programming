@@ -18,31 +18,24 @@ namespace bv_algorithm
     }
 
     operation BV_Algorithm (N : Int, oracle : ((Qubit[], Qubit, Int[]) => Unit), a : Int[]) : Int[] {
-        // The algorithm is very similar to Deutsch-Jozsa algorithm; try to implement it without hints.
-        // ...
         using ((x, y) = (Qubit[N], Qubit())) {
             // Newly allocated qubits start in the |0⟩ state.
             // The first step is to prepare the qubits in the required state before calling the oracle.
             // Each qubit of the input register has to be in the |+⟩ state.
-            // ...
             ApplyToEachA(H, x);
 
             // The answer register has to be in the |-⟩ state.
-            // ...
             X(y);
             H(y);
 
             // Apply the oracle to the input register and the answer register.
-            // ...
             oracle(x, y, a);
 
             // Apply a Hadamard gate to each qubit of the input register again.
-            // ...
             ApplyToEach(H, x);
 
             // Measure each qubit of the input register in the computational basis using the M operation.
             // If any of the measurement results is One, the function implemented by the oracle is balanced.
-            // ...
             mutable r = new Int[N];
             for (i in 0 .. N - 1) {
                 if (M(x[i]) != Zero) {
@@ -51,7 +44,6 @@ namespace bv_algorithm
             }
 
             // Before releasing the qubits make sure they are all in the |0⟩ state.
-            // ...
             ResetAll(x);
             Reset(y);
             return r;
@@ -60,13 +52,11 @@ namespace bv_algorithm
 
     function AllEqualityFactI(actual : Int[], expected : Int[]) : Bool {
         // Check that array lengths are equal
-        // ...
         if(Length(actual) != Length(expected)) {
             return false;
         }
         
         // Check that the corresponding elements of the arrays are equal
-        // ...
         let N = Length(actual);
         for (i in 0 .. N - 1) {
             if(actual[i] != expected[i]) {
@@ -77,13 +67,6 @@ namespace bv_algorithm
     }
 
     operation Run_BernsteinVazirani_Algorithm (a : Int[]) : String {
-        // Now use AllEqualityFactI to verify the results of the algorithm
-        // if (not AllEqualityFactI(BV_Algorithm(3, Oracle_Zero, [0, 0, 0]), [0, 0, 0])) {
-        //     return "Incorrect result for f(x) = 0";
-        // }
-        
-        // Run the algorithm on the rest of the oracles
-        // ...
         let n = Length(a);
         if (not AllEqualityFactI(BV_Algorithm(n, Oracle_ProductFunction, a), a)) {
             return "Incorrect result for f(x) = [1 0 1]x";
