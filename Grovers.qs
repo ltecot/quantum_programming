@@ -131,20 +131,6 @@ namespace GroversAlgorithm {
         adjoint self;
     }
     
-    
-    //operation PhaseFlip_ControlledZ (register : Qubit[]) : Unit {
-    //    
-    //    body (...) {
-    //        // Alternative solution, described at https://quantumcomputing.stackexchange.com/questions/4268/how-to-construct-the-inversion-about-the-mean-operator/4269#4269
-    //       ApplyToEachA(X, register);
-    //        Controlled Z(Most(register), Tail(register));
-    //        ApplyToEachA(X, register);
-    //    }
-    //    
-    //    adjoint self;
-    //}
-    
-    
     // Task 2.3. The Grover iteration
     operation GroverIteration (register : Qubit[], oracle : (Qubit[] => Unit is Adj)) : Unit
     is Adj {
@@ -174,13 +160,18 @@ namespace GroversAlgorithm {
     }
     
     operation Run_Grovers_Algorithm () : Int[] {
+        //select qubit size n 
         let n = 5;
+        
+        //generate the hidden value
         let iterations = PowD(PowD(2.0, IntAsDouble(n)), 0.5);
         let pattern = IntAsBoolArray(RandomIntPow2(n), n);
         let markingOracle = Oracle_ArbitraryPattern(_, _, pattern);
+
+        //run the algorithm
         let ret1 = GroversSearch(_, markingOracle, Ceiling(iterations));
-        //SOMETHING HERE IS WRONG
-        //not sure how to pass the solution to the driver either
+
+        //read the solution 
         using ((x, y) = (Qubit[n], Qubit())) {
 
             ret1(x);
@@ -207,9 +198,6 @@ namespace GroversAlgorithm {
 
         }
 
-
-        // If all tests pass, report success!
-        //return ret1;
     }
     
 }

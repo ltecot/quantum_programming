@@ -4,7 +4,7 @@ using Microsoft.Quantum.Simulation.Core;
 using Microsoft.Quantum.Simulation.Simulators;
 
 //Change namespace to desired algorithm
-namespace GroversAlgorithm
+namespace dj_algorithm
 {
     class Driver
     {
@@ -14,11 +14,12 @@ namespace GroversAlgorithm
             {
                 var watch = System.Diagnostics.Stopwatch.StartNew();
 
-                //Uncomment for Deutsch Josze
-                //System.Console.WriteLine("Result for Deutsch Josze Algorithm:");
-                //Run_DeutschJozsa_Algorithm.Run(qsim).Wait();
+                //Uncomment the following for Deutsch Josze
 
-                //Uncomment for Bernstein Vazirani
+                System.Console.WriteLine("Result for Deutsch Josze Algorithm:");
+                Run_DeutschJozsa_Algorithm.Run(qsim).Wait();
+
+                //Uncomment the following for Bernstein Vazirani
                 /* 
                 int n = 10;
                 long[] a = new long[n];
@@ -38,7 +39,7 @@ namespace GroversAlgorithm
                 }
                 */
 
-                //Uncomment for Simon's
+                //Uncomment the following for Simon's
                 /* 
                 var res = Run_Simon_Algorithm.Run(qsim).Result;
                 System.Console.WriteLine("Result for Simon's Algorithm:");
@@ -46,12 +47,12 @@ namespace GroversAlgorithm
                 */
 
 
-                //Uncomment for Grover's
-                
+                //Uncomment the following for Grover's
+                /* 
                 var res = Run_Grovers_Algorithm.Run(qsim).Result;
                 System.Console.WriteLine("Result for Grover's Algorithm:");
                 System.Console.WriteLine(res);
-                
+                */
 
 
                 watch.Stop();

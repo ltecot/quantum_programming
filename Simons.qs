@@ -115,9 +115,10 @@ namespace SimonsAlgorithm {
     }
 
     operation Run_Simon_Algorithm () : Int[] {
+    
+        //run the algorithm
         let ret1 = Simon_Algorithm(4, Oracle_BitwiseRightShift);
         
-        // NO SOLUTION CHECKING CURRENTLY 
         return ret1;
     }
 }
